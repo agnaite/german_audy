@@ -7,10 +7,17 @@
 </head>
 <body>
 	<div class="container">
-		<nav><img src="images/smiley.gif"><h4>audysagt</h4></nav>
+		<nav <%= 'class="hidden"' unless @lang == "de" %>><img src="images/smiley.gif"><h4>audysagt</h4></nav>
+		<form method="post" action="/lang">
+			<button type="submit" name="lang" value="de" id="de" <%= 'class="lang-selected"' if @lang == "de" %>>Deutsch</button>
+			<button type="submit" name="lang" value="fr" id="fr" <%= 'class="lang-selected"' if @lang == "fr" %>>Français</button>
+			<button type="submit" name="lang" value="it" id="it" <%= 'class="lang-selected"' if @lang == "it" %>>Italiano</button>
+		</form>
 		<div class="tweet-wrapper"
-			<ul><% @tweets.each do |tweet| %>
-						<li><span id="audy" style='color:#<%= "%06x" % (rand * 0xffffff) %>'>audy sagt: </span><span id="tweet"><%= tweet %></span></li>
+			<ul><% @tweets.each do |status, tweet| %>
+						<li><span id="audy" style='color:#<%= "%06x" % (rand * 0xffffff) %>'>audy sagt: </span><span id="tweet"><%= tweet %></span></br>
+							<a href="https://twitter.com/heyaudy/status/<%= status %>">zum originellen >> </a>
+						</li>
 					<% end %>
 			</ul>
 		</div>

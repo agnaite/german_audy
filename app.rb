@@ -2,10 +2,12 @@ require 'oauth'
 require 'json'
 require 'sinatra'
 require 'shotgun'
+require 'nokogiri'
 
 # Now you will fetch /1.1/statuses/user_timeline.json,
 # returns a list of public Tweets from the specified
 # account.
+
 baseurl = "https://api.twitter.com"
 path    = "/1.1/statuses/user_timeline.json"
 query   = URI.encode_www_form(
@@ -33,7 +35,7 @@ http.start
 
 request.oauth! http, consumer_key, access_token
 
-def get_tweets(request, http)
+def get_tweets(request, http, lang)
   response = http.request(request)
   # Parse and print the Tweet if the response code was 200
   tweets = nil
@@ -43,8 +45,9 @@ def get_tweets(request, http)
 
   g_key = "AIzaSyDLet8h0bMWTWBdVPvs6_fT_-adUZQTAds"
   source = "en"
-  target = "de"
-  translated_tweets = []
+  target = lang
+
+  translated_tweets = {}
 
   tweets.each do |tweet|
     final_tweet = ""
@@ -53,12 +56,22 @@ def get_tweets(request, http)
     g_response = Net::HTTP.get(uri)
     translate = JSON.parse(g_response)
     arr = translate["data"]["translations"]
-    translated_tweets << arr[0]["translatedText"]
+    translated_tweets[tweet["id_str"]] = arr[0]["translatedText"]
   end
   translated_tweets
 end
 
 get '/' do
-  @tweets = get_tweets(request, http)
+  @lang = "de"
+  @tweets = get_tweets(request, http, @lang)
+  erb :index
+end
+
+post '/lang' do
+  @lang = params[:lang]
+  if @lang == "de"
+    redirect '/'
+  end
+  @tweets = get_tweets(request, http, @lang)
   erb :index
 end

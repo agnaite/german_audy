@@ -19,11 +19,36 @@ img {
 	width: 50%;
 }
 
+form {
+	text-align: center;
+	padding: 20px;
+}
+
+button {
+	background-color: #ecf0f1;
+	font-size: 12px;
+	border: none;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+button:hover {
+	cursor: pointer;
+	background-color: #1abc9c;
+}
+
+.lang-selected {
+	background-color: #9b59b6;
+}
+
+.hidden {
+	display: none;
+}
+
 .tweet-wrapper {
 	display: block;
 	margin: 0 auto;
 	width: 50%;
-	padding-top: 20px;
 }
 
 li {
@@ -43,6 +68,17 @@ li {
 #tweet {
 	text-align: justify;
 	font-size: 18px;
+}
+
+a {
+	padding-top: 5px;
+	font-size: 10px;
+	text-decoration: none;
+	color: #9b59b6;
+}
+
+a:hover {
+	color: #1abc9c;
 }
 
 @media (max-width: 500px) {
