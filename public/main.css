@@ -8,6 +8,21 @@
 	width: 100%;
 }
 
+nav {
+	position: absolute;
+	width: 10%;
+}
+
+.hidden {
+	display: none;
+}
+
+img {
+	margin: 0;
+	padding: 0px 0 0 0;
+	width: 50%;
+}
+
 .tweet-wrapper {
 	display: block;
 	margin: 0 auto;

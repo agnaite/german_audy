@@ -7,12 +7,27 @@
 </head>
 <body>
 	<div class="container">
+		<nav class="hidden"><img src="images/smiley.gif"><h4>audysagt</h4></nav>
 		<div class="tweet-wrapper"
 			<ul><% @tweets.each do |tweet| %>
-						<li><span id="audy" style='color:#<%= "%06x" % (rand * 0xffffff) %>'>Audy sagt: </span><span id="tweet"><%= tweet %></span></li>
+						<li><span id="audy" style='color:#<%= "%06x" % (rand * 0xffffff) %>'>audy sagt: </span><span id="tweet"><%= tweet %></span></li>
 					<% end %>
 			</ul>
 		</div>
 </div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('.tweet-wrapper').mousemove(function(){
+
+				$('nav').removeClass('hidden');
+				setTimeout(function () {
+			 $('nav').addClass("hidden");
+		 }, 1000)
+
+			});
+		});
+</script>
 </html>
