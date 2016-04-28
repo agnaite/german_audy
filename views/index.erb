@@ -10,6 +10,7 @@
 		<nav <%= 'class="hidden"' unless @lang == "de" %>><img src="images/smiley.gif"><h4>audysagt</h4></nav>
 		<form method="post" action="/lang">
 			<button type="submit" name="lang" value="de" id="de" <%= 'class="lang-selected"' if @lang == "de" %>>Deutsch</button>
+			<button type="submit" name="lang" value="ru" id="ru" <%= 'class="lang-selected"' if @lang == "ru" %>>Pусский</button>
 			<button type="submit" name="lang" value="fr" id="fr" <%= 'class="lang-selected"' if @lang == "fr" %>>Français</button>
 			<button type="submit" name="lang" value="it" id="it" <%= 'class="lang-selected"' if @lang == "it" %>>Italiano</button>
 		</form>
