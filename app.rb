@@ -26,42 +26,44 @@ http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 # exercise, no need to enter them again here. The
 # ||= operator will only assign these values if
 # they are not already set.
-consumer_key = OAuth::Consumer.new(
+$consumer_key = OAuth::Consumer.new(
     "FYf3OfDOowheyjvqskviob3T2",
     "7xLXzCc7FOMCkBDtqNG69WWvoCkVKCyJehd80P3bWAXGWmhDYz")
-access_token = OAuth::Token.new(
+$access_token = OAuth::Token.new(
     "8570212-hLy9t4sE5bVWEWKKqgGpauosnYWR2CpVIuf1PFIVMq",
     "SBY00PrBPeojb6bZufDBE1LQme1bpqJOH9nWyD7TFzcO0")
 
-# Issue the request.
-request.oauth! http, consumer_key, access_token
-http.start
-response = http.request request
+def get_tweets(request, http)
+  # Issue the request.
+  request.oauth! http, $consumer_key, $access_token
+  http.start
+  response = http.request request
 
-# Parse and print the Tweet if the response code was 200
-tweets = nil
-if response.code == '200' then
-  tweets = JSON.parse(response.body)
+  # Parse and print the Tweet if the response code was 200
+  tweets = nil
+  if response.code == '200' then
+    tweets = JSON.parse(response.body)
+  end
+
+  g_key = "AIzaSyDLet8h0bMWTWBdVPvs6_fT_-adUZQTAds"
+  source = "en"
+  target = "de"
+  translated_tweets = []
+
+  tweets.each do |tweet|
+    final_tweet = ""
+    final_tweet << URI.escape(tweet["text"])
+    uri = URI("https://www.googleapis.com/language/translate/v2?key=#{g_key}&q=#{final_tweet}&source=#{source}&target=#{target}")
+    g_response = Net::HTTP.get(uri)
+    translate = JSON.parse(g_response)
+    arr = translate["data"]["translations"]
+    translated_tweets << arr[0]["translatedText"]
+  end
+  translated_tweets
 end
 
-g_key = "AIzaSyDLet8h0bMWTWBdVPvs6_fT_-adUZQTAds"
-source = "en"
-target = "de"
-translated_tweets = []
-
-tweets.each do |tweet|
-  final_tweet = ""
-  final_tweet << URI.escape(tweet["text"])
-  uri = URI("https://www.googleapis.com/language/translate/v2?key=#{g_key}&q=#{final_tweet}&source=#{source}&target=#{target}")
-  g_response = Net::HTTP.get(uri)
-  translate = JSON.parse(g_response)
-  arr = translate["data"]["translations"]
-  translated_tweets << arr[0]["translatedText"]
-end
-
-puts translated_tweets
 
 get '/' do
-  erb :index, :locals => {tweets: translated_tweets}
+  erb :index, :locals => {tweets: get_tweets(request, http)}
 end
 nil
