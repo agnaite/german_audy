@@ -33,3 +33,18 @@ li {
 	text-align: justify;
 	font-size: 18px;
 }
+
+@media (max-width: 500px) {
+  .tweet-wrapper {
+    width: 80%;
+	}
+
+	#audy {
+		font-size: 18px;
+	}
+
+	#tweet {
+		font-size: 16px;
+	}
+
+}
