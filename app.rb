@@ -10,7 +10,7 @@ baseurl = "https://api.twitter.com"
 path    = "/1.1/statuses/user_timeline.json"
 query   = URI.encode_www_form(
     "screen_name" => "heyaudy",
-    "count" => 10,
+    "count" => 11,
 )
 address = URI("#{baseurl}#{path}?#{query}")
 request = Net::HTTP::Get.new address.request_uri
