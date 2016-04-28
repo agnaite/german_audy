@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div class="container">
-		<nav class="hidden"><img src="images/smiley.gif"><h4>audysagt</h4></nav>
+		<nav><img src="images/smiley.gif"><h4>audysagt</h4></nav>
 		<div class="tweet-wrapper"
 			<ul><% @tweets.each do |tweet| %>
 						<li><span id="audy" style='color:#<%= "%06x" % (rand * 0xffffff) %>'>audy sagt: </span><span id="tweet"><%= tweet %></span></li>
@@ -20,13 +20,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	$(function(){
-		$('body').mousemove(function(){
-				$('nav').removeClass('hidden');
-				setTimeout(function () {
-			 $('nav').addClass("hidden");
-		 }, 2000)
-
-			});
-		});
+			$('nav').fadeOut(4000);
+	});
 </script>
 </html>
