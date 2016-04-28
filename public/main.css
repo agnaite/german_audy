@@ -46,6 +46,14 @@ li {
 }
 
 @media (max-width: 500px) {
+	nav {
+		width: 20%;
+	}
+
+	h4 {
+		display: none;
+	}
+
   .tweet-wrapper {
     width: 80%;
 	}
