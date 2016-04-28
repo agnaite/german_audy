@@ -12,33 +12,29 @@ query   = URI.encode_www_form(
     "screen_name" => "heyaudy",
     "count" => 11,
 )
+
 address = URI("#{baseurl}#{path}?#{query}")
 request = Net::HTTP::Get.new address.request_uri
-
-# Print data about a list of Tweets
 
 # Set up HTTP.
 http             = Net::HTTP.new address.host, address.port
 http.use_ssl     = true
 http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
-# If you entered your credentials in the first
-# exercise, no need to enter them again here. The
-# ||= operator will only assign these values if
-# they are not already set.
-$consumer_key = OAuth::Consumer.new(
+consumer_key = OAuth::Consumer.new(
     "FYf3OfDOowheyjvqskviob3T2",
     "7xLXzCc7FOMCkBDtqNG69WWvoCkVKCyJehd80P3bWAXGWmhDYz")
-$access_token = OAuth::Token.new(
+
+access_token = OAuth::Token.new(
     "8570212-hLy9t4sE5bVWEWKKqgGpauosnYWR2CpVIuf1PFIVMq",
     "SBY00PrBPeojb6bZufDBE1LQme1bpqJOH9nWyD7TFzcO0")
 
-def get_tweets(request, http)
-  # Issue the request.
-  request.oauth! http, $consumer_key, $access_token
-  http.start
-  response = http.request request
+http.start
 
+request.oauth! http, consumer_key, access_token
+
+def get_tweets(request, http)
+  response = http.request(request)
   # Parse and print the Tweet if the response code was 200
   tweets = nil
   if response.code == '200' then
@@ -62,8 +58,7 @@ def get_tweets(request, http)
   translated_tweets
 end
 
-
 get '/' do
-  erb :index, :locals => {tweets: get_tweets(request, http)}
+  @tweets = get_tweets(request, http)
+  erb :index
 end
-nil
