@@ -50,7 +50,7 @@ source = "en"
 target = "de"
 translated_tweets = []
 
-tweets.each do |tweet| 
+tweets.each do |tweet|
   final_tweet = ""
   final_tweet << URI.escape(tweet["text"])
   uri = URI("https://www.googleapis.com/language/translate/v2?key=#{g_key}&q=#{final_tweet}&source=#{source}&target=#{target}")
@@ -66,4 +66,3 @@ get '/' do
   erb :index, :locals => {tweets: translated_tweets}
 end
 nil
-
