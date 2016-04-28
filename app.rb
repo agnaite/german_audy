@@ -2,7 +2,8 @@ require 'oauth'
 require 'json'
 require 'sinatra'
 require 'shotgun'
-require 'nokogiri'
+require 'action_view'
+include ActionView::Helpers::DateHelper
 
 # Now you will fetch /1.1/statuses/user_timeline.json,
 # returns a list of public Tweets from the specified
@@ -56,7 +57,9 @@ def get_tweets(request, http, lang)
     g_response = Net::HTTP.get(uri)
     translate = JSON.parse(g_response)
     arr = translate["data"]["translations"]
-    translated_tweets[tweet["id_str"]] = arr[0]["translatedText"]
+    translated_tweets[tweet["id_str"]] = [arr[0]["translatedText"]]
+    translated_tweets[tweet["id_str"]] << tweet["created_at"]
+    puts translated_tweets
   end
   translated_tweets
 end
