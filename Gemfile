@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-require 'rubygems'
-require 'json'
-require 'sinatra'
-require 'shotgun'
+gem 'oauth'
+gem 'json'
+gem 'sinatra'
+gem 'shotgun'
