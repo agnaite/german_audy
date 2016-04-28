@@ -5,13 +5,13 @@
 	<title></title>
 </head>
 <body>
-	<h3><% tweets.each do |tweet| %>
-				<h2>Audy sagt:</h2> <%= tweet %>
-			<% end %>
-	</h3>
-	<h1>
-		<%=  %>
-	</h1>
+	<div class="container">
+		<div class="tweet-wrapper"
+			<ul><% tweets.each do |tweet| %>
+						<li><span id="audy" style='color:#<%= "%06x" % (rand * 0xffffff) %>'>Audy sagt: </span><span id="tweet"><%= tweet %></span></li>
+					<% end %>
+			</ul>
+		</div>
+</div>
 </body>
 </html>
-

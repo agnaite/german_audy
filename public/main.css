@@ -1,4 +1,35 @@
 * {
 	font-family: 'Menlo';
+	margin: 0;
+	padding: 0;
 }
 
+.container {
+	width: 100%;
+}
+
+.tweet-wrapper {
+	display: block;
+	margin: 0 auto;
+	width: 50%;
+	padding-top: 60px;
+}
+
+li {
+	background-color: #ecf0f1;
+	list-style: none;
+	margin-bottom: 20px;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+#audy {
+	font-size: 22px;
+	font-weight: 700;
+	margin: 0 5px 10px 0;
+}
+
+#tweet {
+	text-align: justify;
+	font-size: 18px;
+}
