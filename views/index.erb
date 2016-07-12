@@ -19,8 +19,8 @@
 		<div class="tweet-wrapper"
 			<ul><% @tweets.each do |status, tweet| %>
 						<li>
-							<span id="audy" style='color:#<%= "%06x" % (rand * 0xffffff) %>'>audy sagt: </span><span id="tweet"><%= tweet[0] %></span></br>
-							<div id="time"><%= time_ago_in_words(Time.parse(tweet[1])) + " ago" %> </div>
+							<span class="audy" style='color:#<%= "%06x" % (rand * 0xffffff) %>'>audy sagt: </span><span class="tweet"><%= tweet[0] %></span></br>
+							<div class="time"><%= time_ago_in_words(Time.parse(tweet[1])) + " ago" %> </div>
 							<a href="https://twitter.com/heyaudy/status/<%= status %>">see original >> </a>
 						</li>
 					<% end %>

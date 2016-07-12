@@ -71,14 +71,14 @@ li {
 }
 
 a,
-#time {
+.time {
 	padding-top: 5px;
 	font-size: 10px;
 	text-decoration: none;
 	color: #9b59b6;
 }
 
-#time {
+.time {
 	color: #000;
 }
 
@@ -99,11 +99,11 @@ a:hover {
     width: 80%;
 	}
 
-	#audy {
+	.audy {
 		font-size: 18px;
 	}
 
-	#tweet {
+	.tweet {
 		font-size: 16px;
 	}
 
