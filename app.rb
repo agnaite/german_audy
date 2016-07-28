@@ -3,11 +3,15 @@ require 'json'
 require 'sinatra'
 require 'shotgun'
 require 'action_view'
+
 include ActionView::Helpers::DateHelper
 
 # Now you will fetch /1.1/statuses/user_timeline.json,
 # returns a list of public Tweets from the specified
 # account.
+
+consumer_key = OAuth::Consumer.new(ENV['CONSUMER_KEY'], ENV['CONSUMER_SECRET'])
+access_token = OAuth::Token.new(ENV['ACCESS_TOKEN'], ENV['ACCESS_SECRET'])
 
 baseurl = "https://api.twitter.com"
 path    = "/1.1/statuses/user_timeline.json"
@@ -23,14 +27,6 @@ request = Net::HTTP::Get.new address.request_uri
 http             = Net::HTTP.new address.host, address.port
 http.use_ssl     = true
 http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-
-consumer_key = OAuth::Consumer.new(
-    "FYf3OfDOowheyjvqskviob3T2",
-    "7xLXzCc7FOMCkBDtqNG69WWvoCkVKCyJehd80P3bWAXGWmhDYz")
-
-access_token = OAuth::Token.new(
-    "8570212-hLy9t4sE5bVWEWKKqgGpauosnYWR2CpVIuf1PFIVMq",
-    "SBY00PrBPeojb6bZufDBE1LQme1bpqJOH9nWyD7TFzcO0")
 
 http.start
 
