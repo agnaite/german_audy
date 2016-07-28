@@ -71,12 +71,14 @@ li {
 }
 
 a,
+
 .time {
 	padding-top: 5px;
 	font-size: 10px;
 	text-decoration: none;
 	color: #9b59b6;
 }
+
 
 .time {
 	color: #000;
