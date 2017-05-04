@@ -17,13 +17,14 @@
 			<button type="submit" name="lang" value="it" id="it" <%= 'class="lang-selected"' if @lang == "it" %>>Italiano</button>
 		</form>
 		<div class="tweet-wrapper"
-			<ul><% @tweets.each do |status, tweet| %>
-						<li>
-							<span class="audy" style='color:#<%= "%06x" % (rand * 0xffffff) %>'>audy sagt: </span><span class="tweet"><%= tweet[0] %></span></br>
-							<div class="time"><%= time_ago_in_words(Time.parse(tweet[1])) + " ago" %> </div>
-							<a href="https://twitter.com/heyaudy/status/<%= status %>">see original >> </a>
-						</li>
-					<% end %>
+			<ul>    
+				<% @tweets.each do |tweet| %>
+					<li>
+						<span class="audy" style='color:#<%= "%06x" % (rand * 0xffffff) %>'>audy sagt: </span><span class="tweet"><%= tweet %></span>
+						</br>
+						
+					</li>
+				<% end %>
 			</ul>
 		</div>
 </div>

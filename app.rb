@@ -3,58 +3,40 @@ require 'json'
 require 'sinatra'
 require 'shotgun'
 require 'action_view'
+require 'twitter'
+require 'uri'
 
 include ActionView::Helpers::DateHelper
+ 
+client = Twitter::REST::Client.new do |config|
+  config.consumer_key        = ENV['CONSUMER_KEY']
+  config.consumer_secret     = ENV['CONSUMER_SECRET']
+  config.access_token        = ENV['ACCESS_TOKEN']
+  config.access_token_secret = ENV['ACCESS_SECRET']
+end
 
-# Now you will fetch /1.1/statuses/user_timeline.json,
-# returns a list of public Tweets from the specified
-# account.
-
-consumer_key = OAuth::Consumer.new(ENV['CONSUMER_KEY'], ENV['CONSUMER_SECRET'])
-access_token = OAuth::Token.new(ENV['ACCESS_TOKEN'], ENV['ACCESS_SECRET'])
-
-baseurl = "https://api.twitter.com"
-path    = "/1.1/statuses/user_timeline.json"
-query   = URI.encode_www_form(
-    "screen_name" => "heyaudy",
-    "count" => 10,
-)
-
-address = URI("#{baseurl}#{path}?#{query}")
-request = Net::HTTP::Get.new address.request_uri
-
-# Set up HTTP.
-http             = Net::HTTP.new address.host, address.port
-http.use_ssl     = true
-http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-
-http.start
-
-request.oauth! http, consumer_key, access_token
-
-def get_tweets(request, http, lang)
-  response = http.request(request)
-  # Parse and print the Tweet if the response code was 200
-  tweets = nil
-  if response.code == '200' then
-    tweets = JSON.parse(response.body)
-  end
+def get_tweets(lang, client)
+  tweets = client.user_timeline('heyaudy', count: 10)
+  puts tweets
 
   g_key = "AIzaSyDLet8h0bMWTWBdVPvs6_fT_-adUZQTAds"
   source = "en"
   target = lang
 
-  translated_tweets = {}
+  translated_tweets = []
 
   tweets.each do |tweet|
+    tweet = tweet.full_text
+    puts tweet.instance_of? String
     final_tweet = ""
-    final_tweet << URI.escape(tweet["text"])
-    uri = URI("https://www.googleapis.com/language/translate/v2?key=#{g_key}&q=#{final_tweet}&source=#{source}&target=#{target}")
-    g_response = Net::HTTP.get(uri)
-    translate = JSON.parse(g_response)
-    arr = translate["data"]["translations"]
-    translated_tweets[tweet["id_str"]] = [arr[0]["translatedText"]]
-    translated_tweets[tweet["id_str"]] << tweet["created_at"]
+    final_tweet << URI.escape(tweet)
+    # uri = URI("https://www.googleapis.com/language/translate/v2?key=#{g_key}&q=#{final_tweet}&source=#{source}&target=#{target}")
+    # g_response = Net::HTTP.get(uri)
+    # translate = JSON.parse(g_response)
+    # arr = translate["data"]["translations"]
+    # translated_tweets[tweet["id_str"]] = [arr[0]["translatedText"]]
+    # translated_tweets[tweet["id_str"]] << tweet["created_at"]
+    translated_tweets << tweet
     puts translated_tweets
   end
   translated_tweets
@@ -62,7 +44,7 @@ end
 
 get '/' do
   @lang = "de"
-  @tweets = get_tweets(request, http, @lang)
+  @tweets = get_tweets(@lang, client)
   erb :index
 end
 
@@ -71,6 +53,6 @@ post '/lang' do
   if @lang == "de"
     redirect '/'
   end
-  @tweets = get_tweets(request, http, @lang)
+  @tweets = get_tweets(@lang, client)
   erb :index
 end
