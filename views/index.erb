@@ -20,9 +20,7 @@
 			<ul>    
 				<% @tweets.each do |tweet| %>
 					<li>
-						<span class="audy" style='color:#<%= "%06x" % (rand * 0xffffff) %>'>audy sagt: </span><span class="tweet"><%= tweet %></span>
-						</br>
-						
+						<span class="audy" style='color:#<%= "%06x" % (rand * 0xffffff) %>'>audy sagt: </span><span class="tweet"><%= tweet[0] %></span>
 					</li>
 				<% end %>
 			</ul>

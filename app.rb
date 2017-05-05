@@ -16,8 +16,7 @@ client = Twitter::REST::Client.new do |config|
 end
 
 def get_tweets(lang, client)
-  tweets = client.user_timeline('heyaudy', count: 10)
-  puts tweets
+  tweets = client.user_timeline('heyaudy', count: 11)
 
   g_key = "AIzaSyDLet8h0bMWTWBdVPvs6_fT_-adUZQTAds"
   source = "en"
@@ -27,17 +26,13 @@ def get_tweets(lang, client)
 
   tweets.each do |tweet|
     tweet = tweet.full_text
-    puts tweet.instance_of? String
     final_tweet = ""
     final_tweet << URI.escape(tweet)
-    # uri = URI("https://www.googleapis.com/language/translate/v2?key=#{g_key}&q=#{final_tweet}&source=#{source}&target=#{target}")
-    # g_response = Net::HTTP.get(uri)
-    # translate = JSON.parse(g_response)
-    # arr = translate["data"]["translations"]
-    # translated_tweets[tweet["id_str"]] = [arr[0]["translatedText"]]
-    # translated_tweets[tweet["id_str"]] << tweet["created_at"]
-    translated_tweets << tweet
-    puts translated_tweets
+    uri = URI("https://www.googleapis.com/language/translate/v2?key=#{g_key}&q=#{final_tweet}&source=#{source}&target=#{target}")
+    g_response = Net::HTTP.get(uri)
+    translate = JSON.parse(g_response)
+    arr = translate["data"]["translations"]
+    translated_tweets << [arr[0]["translatedText"]]
   end
   translated_tweets
 end
